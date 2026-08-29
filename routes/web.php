@@ -1,0 +1,77 @@
+<?php
+
+use App\Http\Controllers\Admin\AnnouncementController as AdminAnnouncementController;
+use App\Http\Controllers\Admin\CategoryController as AdminCategoryController;
+use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\FacilityController as AdminFacilityController;
+use App\Http\Controllers\Admin\NewsController as AdminNewsController;
+use App\Http\Controllers\Admin\SchoolProfileController;
+use App\Http\Controllers\Admin\StaffController as AdminStaffController;
+use App\Http\Controllers\Admin\TeacherController as AdminTeacherController;
+use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Public\AnnouncementController as PublicAnnouncementController;
+use App\Http\Controllers\Public\FacilityController as PublicFacilityController;
+use App\Http\Controllers\Public\HomeController;
+use App\Http\Controllers\Public\NewsController as PublicNewsController;
+use App\Http\Controllers\Public\StaffController as PublicStaffController;
+use App\Http\Controllers\Public\TeacherController as PublicTeacherController;
+use Illuminate\Support\Facades\Route;
+
+/*
+|--------------------------------------------------------------------------
+| Public Routes
+|--------------------------------------------------------------------------
+|
+| Public-facing routes for visitors, students, and parents.
+|
+*/
+Route::get('/', [HomeController::class, 'index'])->name('home');
+Route::get('/berita', [PublicNewsController::class, 'index'])->name('news.index');
+Route::get('/berita/{news:slug}', [PublicNewsController::class, 'show'])->name('news.show');
+Route::get('/pengumuman', [PublicAnnouncementController::class, 'index'])->name('announcements.index');
+Route::get('/pengumuman/{announcement:slug}', [PublicAnnouncementController::class, 'show'])->name('announcements.show');
+Route::get('/guru', [PublicTeacherController::class, 'index'])->name('teachers.index');
+Route::get('/staf', [PublicStaffController::class, 'index'])->name('staff.index');
+Route::get('/fasilitas', [PublicFacilityController::class, 'index'])->name('facilities.index');
+Route::get('/fasilitas/{facility:slug}', [PublicFacilityController::class, 'show'])->name('facilities.show');
+
+/*
+|--------------------------------------------------------------------------
+| Authentication Routes
+|--------------------------------------------------------------------------
+|
+| Login and logout routes. Login is guest-only (redirects if authed).
+|
+*/
+Route::middleware('guest')->group(function () {
+    Route::get('/login', [LoginController::class, 'showLogin'])->name('login');
+    Route::post('/login', [LoginController::class, 'login']);
+});
+
+Route::post('/logout', [LoginController::class, 'logout'])
+    ->middleware('auth')
+    ->name('logout');
+
+/*
+|--------------------------------------------------------------------------
+| Admin CMS Routes
+|--------------------------------------------------------------------------
+|
+| Back-office administrative routes. All require authentication.
+| Unauthenticated users are redirected to /login.
+|
+*/
+Route::prefix('admin')->name('admin.')->middleware('auth')->group(function () {
+    Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
+    Route::get('/dashboard', [DashboardController::class, 'index']);
+
+    Route::get('/school-profile', [SchoolProfileController::class, 'edit'])->name('school-profile');
+    Route::put('/school-profile', [SchoolProfileController::class, 'update']);
+
+    Route::resource('categories', AdminCategoryController::class)->except(['show']);
+    Route::resource('news', AdminNewsController::class)->except(['show']);
+    Route::resource('announcements', AdminAnnouncementController::class)->except(['show']);
+    Route::resource('teachers', AdminTeacherController::class)->except(['show']);
+    Route::resource('staff', AdminStaffController::class)->except(['show']);
+    Route::resource('facilities', AdminFacilityController::class)->except(['show']);
+});
