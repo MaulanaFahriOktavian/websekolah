@@ -16,6 +16,7 @@ export default function Navbar() {
         { label: 'Beranda', href: '/', active: url === '/' },
         { label: 'Berita', href: '/berita', active: url.startsWith('/berita') },
         { label: 'Pengumuman', href: '/pengumuman', active: url.startsWith('/pengumuman') },
+        { label: 'Galeri', href: '/galeri', active: url.startsWith('/galeri') },
         { label: 'Guru', href: '/guru', active: url.startsWith('/guru') },
         { label: 'Staf', href: '/staf', active: url.startsWith('/staf') },
         { label: 'Fasilitas', href: '/fasilitas', active: url.startsWith('/fasilitas') },
@@ -83,7 +84,7 @@ export default function Navbar() {
                             <Link
                                 key={item.label}
                                 href={item.href}
-                                className={`px-3 py-2 text-sm font-medium rounded-lg transition-colors ${
+                                className={`px-3.5 py-2 text-sm font-medium rounded-lg transition-colors ${
                                     item.active
                                         ? 'text-indigo-600 bg-indigo-50/70 font-semibold'
                                         : 'text-slate-600 hover:text-indigo-600 hover:bg-indigo-50/50'

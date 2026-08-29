@@ -49,6 +49,12 @@ export default function AdminSidebar({ isOpen, setIsOpen }) {
                     active: url.startsWith('/admin/announcements'),
                 },
                 {
+                    label: 'Galeri Foto & Video',
+                    href: '/admin/galleries',
+                    icon: Image,
+                    active: url.startsWith('/admin/galleries'),
+                },
+                {
                     label: 'Kategori Berita',
                     href: '/admin/categories',
                     icon: FolderKanban,
@@ -99,13 +105,6 @@ export default function AdminSidebar({ isOpen, setIsOpen }) {
         {
             title: 'Modul CMS (Mendatang)',
             items: [
-                {
-                    label: 'Galeri Foto & Video',
-                    href: '#',
-                    icon: Image,
-                    badge: 'Segera',
-                    disabled: true,
-                },
                 {
                     label: 'Agenda & Kegiatan',
                     href: '#',

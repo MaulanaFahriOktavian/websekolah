@@ -21,6 +21,7 @@ class DatabaseSeeder extends Seeder
             StaffSeeder::class,
             FacilitySeeder::class,
             AchievementSeeder::class,
+            GallerySeeder::class,
         ]);
     }
 }

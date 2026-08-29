@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\AnnouncementController as AdminAnnouncementContro
 use App\Http\Controllers\Admin\CategoryController as AdminCategoryController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\FacilityController as AdminFacilityController;
+use App\Http\Controllers\Admin\GalleryController as AdminGalleryController;
 use App\Http\Controllers\Admin\NewsController as AdminNewsController;
 use App\Http\Controllers\Admin\SchoolProfileController;
 use App\Http\Controllers\Admin\StaffController as AdminStaffController;
@@ -13,6 +14,7 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Public\AchievementController as PublicAchievementController;
 use App\Http\Controllers\Public\AnnouncementController as PublicAnnouncementController;
 use App\Http\Controllers\Public\FacilityController as PublicFacilityController;
+use App\Http\Controllers\Public\GalleryController as PublicGalleryController;
 use App\Http\Controllers\Public\HomeController;
 use App\Http\Controllers\Public\NewsController as PublicNewsController;
 use App\Http\Controllers\Public\StaffController as PublicStaffController;
@@ -38,6 +40,8 @@ Route::get('/fasilitas', [PublicFacilityController::class, 'index'])->name('faci
 Route::get('/fasilitas/{facility:slug}', [PublicFacilityController::class, 'show'])->name('facilities.show');
 Route::get('/prestasi', [PublicAchievementController::class, 'index'])->name('achievements.index');
 Route::get('/prestasi/{achievement:slug}', [PublicAchievementController::class, 'show'])->name('achievements.show');
+Route::get('/galeri', [PublicGalleryController::class, 'index'])->name('galleries.index');
+Route::get('/galeri/{gallery:slug}', [PublicGalleryController::class, 'show'])->name('galleries.show');
 
 /*
 |--------------------------------------------------------------------------
@@ -79,4 +83,7 @@ Route::prefix('admin')->name('admin.')->middleware('auth')->group(function () {
     Route::resource('staff', AdminStaffController::class)->except(['show']);
     Route::resource('facilities', AdminFacilityController::class)->except(['show']);
     Route::resource('achievements', AdminAchievementController::class)->except(['show']);
+
+    Route::resource('galleries', AdminGalleryController::class)->except(['show']);
+    Route::delete('galleries/photos/{photo}', [AdminGalleryController::class, 'destroyPhoto'])->name('galleries.photos.destroy');
 });
