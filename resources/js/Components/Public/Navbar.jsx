@@ -19,6 +19,7 @@ export default function Navbar() {
         { label: 'Guru', href: '/guru', active: url.startsWith('/guru') },
         { label: 'Staf', href: '/staf', active: url.startsWith('/staf') },
         { label: 'Fasilitas', href: '/fasilitas', active: url.startsWith('/fasilitas') },
+        { label: 'Prestasi', href: '/prestasi', active: url.startsWith('/prestasi') },
     ];
 
     return (
@@ -82,7 +83,7 @@ export default function Navbar() {
                             <Link
                                 key={item.label}
                                 href={item.href}
-                                className={`px-3.5 py-2 text-sm font-medium rounded-lg transition-colors ${
+                                className={`px-3 py-2 text-sm font-medium rounded-lg transition-colors ${
                                     item.active
                                         ? 'text-indigo-600 bg-indigo-50/70 font-semibold'
                                         : 'text-slate-600 hover:text-indigo-600 hover:bg-indigo-50/50'

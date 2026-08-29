@@ -20,6 +20,7 @@ class DatabaseSeeder extends Seeder
             TeacherSeeder::class,
             StaffSeeder::class,
             FacilitySeeder::class,
+            AchievementSeeder::class,
         ]);
     }
 }
