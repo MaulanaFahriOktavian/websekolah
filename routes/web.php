@@ -11,14 +11,17 @@ use App\Http\Controllers\Admin\SchoolProfileController;
 use App\Http\Controllers\Admin\StaffController as AdminStaffController;
 use App\Http\Controllers\Admin\TeacherController as AdminTeacherController;
 use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Public\AboutController;
 use App\Http\Controllers\Public\AchievementController as PublicAchievementController;
 use App\Http\Controllers\Public\AnnouncementController as PublicAnnouncementController;
+use App\Http\Controllers\Public\ContactController;
 use App\Http\Controllers\Public\FacilityController as PublicFacilityController;
 use App\Http\Controllers\Public\GalleryController as PublicGalleryController;
 use App\Http\Controllers\Public\HomeController;
 use App\Http\Controllers\Public\NewsController as PublicNewsController;
 use App\Http\Controllers\Public\StaffController as PublicStaffController;
 use App\Http\Controllers\Public\TeacherController as PublicTeacherController;
+use App\Http\Controllers\Public\VisionMissionController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -30,6 +33,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 Route::get('/', [HomeController::class, 'index'])->name('home');
+Route::get('/tentang', [AboutController::class, 'index'])->name('about.index');
+Route::get('/visi-misi', [VisionMissionController::class, 'index'])->name('vision-mission.index');
+Route::get('/kontak', [ContactController::class, 'index'])->name('contact.index');
 Route::get('/berita', [PublicNewsController::class, 'index'])->name('news.index');
 Route::get('/berita/{news:slug}', [PublicNewsController::class, 'show'])->name('news.show');
 Route::get('/pengumuman', [PublicAnnouncementController::class, 'index'])->name('announcements.index');
@@ -73,8 +79,12 @@ Route::prefix('admin')->name('admin.')->middleware('auth')->group(function () {
     Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
     Route::get('/dashboard', [DashboardController::class, 'index']);
 
+    // School Profile — keep PUT for compatibility with feature tests; support multipart upload via POST + _method=PUT.
     Route::get('/school-profile', [SchoolProfileController::class, 'edit'])->name('school-profile');
-    Route::put('/school-profile', [SchoolProfileController::class, 'update']);
+    Route::put('/school-profile', [SchoolProfileController::class, 'update'])->name('school-profile.update');
+    Route::post('/school-profile', [SchoolProfileController::class, 'update'])->name('school-profile.update.post');
+    Route::delete('/school-profile/image/{field}', [SchoolProfileController::class, 'destroyImage'])
+        ->name('school-profile.image.destroy');
 
     Route::resource('categories', AdminCategoryController::class)->except(['show']);
     Route::resource('news', AdminNewsController::class)->except(['show']);
