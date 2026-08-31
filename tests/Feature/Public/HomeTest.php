@@ -31,6 +31,10 @@ class HomeTest extends TestCase
             'name' => 'Sekolah Uji Coba',
             'address' => 'Jl. Uji Coba No. 1',
             'email' => 'test@sekolah.sch.id',
+            'facebook_url' => 'https://facebook.com/sekolah',
+            'instagram_url' => 'https://instagram.com/sekolah',
+            'youtube_url' => 'https://youtube.com/sekolah',
+            'tiktok_url' => 'https://tiktok.com/@sekolah',
         ]);
 
         $response = $this->get('/');
@@ -41,6 +45,13 @@ class HomeTest extends TestCase
             ->where('school.name', 'Sekolah Uji Coba')
             ->where('school.address', 'Jl. Uji Coba No. 1')
             ->where('school.email', 'test@sekolah.sch.id')
+            ->where('school.contact.address', 'Jl. Uji Coba No. 1')
+            ->where('school.contact.email', 'test@sekolah.sch.id')
+            ->where('school.social.facebook', 'https://facebook.com/sekolah')
+            ->where('school.social.instagram', 'https://instagram.com/sekolah')
+            ->where('school.social.youtube', 'https://youtube.com/sekolah')
+            ->where('school.social.tiktok', 'https://tiktok.com/@sekolah')
+            ->where('school.seo.meta_description', 'Website resmi sekolah.')
         );
     }
 

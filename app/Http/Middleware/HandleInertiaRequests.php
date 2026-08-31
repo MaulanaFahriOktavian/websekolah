@@ -70,7 +70,29 @@ class HandleInertiaRequests extends Middleware
                 return null;
             }
 
-            // Only expose safe, public-facing fields
+            // Keep the legacy flat fields for backward compatibility with existing code,
+            // while also exposing the nested structure expected by the public layout and UI.
+            $contact = [
+                'address' => $profile->address,
+                'phone' => $profile->phone,
+                'email' => $profile->email,
+                'website' => $profile->website,
+                'office_hours' => null,
+            ];
+
+            $social = [
+                'facebook' => $profile->facebook_url,
+                'instagram' => $profile->instagram_url,
+                'youtube' => $profile->youtube_url,
+                'tiktok' => $profile->tiktok_url,
+                'twitter' => null,
+            ];
+
+            $seo = [
+                'meta_description' => $profile->tagline ?: ($profile->description ?: 'Website resmi sekolah.'),
+                'meta_keywords' => null,
+            ];
+
             return [
                 'name' => $profile->name,
                 'short_name' => $profile->short_name,
@@ -95,6 +117,9 @@ class HandleInertiaRequests extends Middleware
                 'instagram_url' => $profile->instagram_url,
                 'youtube_url' => $profile->youtube_url,
                 'tiktok_url' => $profile->tiktok_url,
+                'contact' => $contact,
+                'social' => $social,
+                'seo' => $seo,
             ];
         } catch (QueryException) {
             // Table does not exist yet — return null gracefully
