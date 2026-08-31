@@ -108,6 +108,7 @@ class HandleInertiaRequests extends Middleware
                 'favicon_path' => $profile->favicon_path,
                 'hero_image_path' => $profile->hero_image_path,
                 'founded_year' => $profile->founded_year,
+                'established_year' => $profile->founded_year,
                 'accreditation' => $profile->accreditation,
                 'principal_name' => $profile->principal_name,
                 'vision' => $profile->vision,

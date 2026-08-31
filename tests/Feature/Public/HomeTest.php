@@ -31,6 +31,7 @@ class HomeTest extends TestCase
             'name' => 'Sekolah Uji Coba',
             'address' => 'Jl. Uji Coba No. 1',
             'email' => 'test@sekolah.sch.id',
+            'founded_year' => 1985,
             'facebook_url' => 'https://facebook.com/sekolah',
             'instagram_url' => 'https://instagram.com/sekolah',
             'youtube_url' => 'https://youtube.com/sekolah',
@@ -47,6 +48,8 @@ class HomeTest extends TestCase
             ->where('school.email', 'test@sekolah.sch.id')
             ->where('school.contact.address', 'Jl. Uji Coba No. 1')
             ->where('school.contact.email', 'test@sekolah.sch.id')
+            ->where('school.established_year', 1985)
+            ->where('school.founded_year', 1985)
             ->where('school.social.facebook', 'https://facebook.com/sekolah')
             ->where('school.social.instagram', 'https://instagram.com/sekolah')
             ->where('school.social.youtube', 'https://youtube.com/sekolah')

@@ -9,7 +9,7 @@ export default function Footer() {
     const schoolTagline = school?.tagline || 'Unggul dalam Prestasi, Berkarakter, dan Berwawasan Global';
     const npsn = school?.npsn || '10293847';
     const accreditation = school?.accreditation || 'A (Unggul)';
-    const establishedYear = school?.established_year || 1985;
+    const establishedYear = school?.established_year ?? school?.founded_year ?? 1985;
     const contact = school?.contact || {};
     const social = school?.social || {};
     const currentYear = new Date().getFullYear();
