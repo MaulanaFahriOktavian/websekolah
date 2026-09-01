@@ -1,5 +1,5 @@
-import React from 'react';
-import { Link } from '@inertiajs/react';
+import React, { useState } from 'react';
+import { Link, useForm, usePage } from '@inertiajs/react';
 import PublicLayout from '../../../Layouts/PublicLayout';
 import Badge from '../../../Components/Common/Badge';
 import {
@@ -9,6 +9,9 @@ import {
     Globe,
     Map,
     Info,
+    Send,
+    AlertCircle,
+    CheckCircle2,
 } from 'lucide-react';
 
 function FacebookIcon({ className }) {
@@ -46,6 +49,28 @@ function TikTokIcon({ className }) {
 }
 
 export default function Contact({ profile }) {
+    const { flash } = usePage().props;
+    const [showSuccessNotification, setShowSuccessNotification] = useState(!!flash?.message);
+
+    const { data, setData, post, processing, errors, reset } = useForm({
+        name: '',
+        email: '',
+        phone: '',
+        subject: '',
+        message: '',
+    });
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        post('/kontak', {
+            onSuccess: () => {
+                reset();
+                setShowSuccessNotification(true);
+                setTimeout(() => setShowSuccessNotification(false), 5000);
+            },
+        });
+    };
+
     const name      = profile?.name        || null;
     const address   = profile?.address     || null;
     const phone     = profile?.phone       || null;
@@ -82,9 +107,20 @@ export default function Contact({ profile }) {
             </section>
 
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14">
+                {/* Success Message */}
+                {showSuccessNotification && flash?.message && (
+                    <div className="mb-8 p-4 bg-emerald-50 border border-emerald-200 rounded-2xl flex gap-3">
+                        <CheckCircle2 className="w-6 h-6 text-emerald-600 shrink-0 mt-0.5" />
+                        <div>
+                            <h3 className="font-semibold text-emerald-900">{flash.message.title}</h3>
+                            <p className="text-sm text-emerald-700 mt-1">{flash.message.text}</p>
+                        </div>
+                    </div>
+                )}
+
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
 
-                    {/* Left: Contact Info */}
+                    {/* Left: Contact Info & Social */}
                     <div className="space-y-8">
                         <div>
                             <h2 className="text-2xl font-bold text-slate-900 mb-6">Informasi Kontak</h2>
@@ -203,45 +239,181 @@ export default function Contact({ profile }) {
                         )}
                     </div>
 
-                    {/* Right: Map Embed */}
-                    <div className="space-y-4">
-                        <h2 className="text-2xl font-bold text-slate-900">Lokasi Sekolah</h2>
-                        {mapsUrl ? (
-                            <div className="aspect-video rounded-2xl overflow-hidden border border-slate-200 shadow-sm bg-slate-100">
-                                <iframe
-                                    src={mapsUrl.includes('embed') ? mapsUrl : `https://maps.google.com/maps?q=${latitude || ''},${longitude || ''}&output=embed`}
-                                    width="100%"
-                                    height="100%"
-                                    style={{ border: 0 }}
-                                    allowFullScreen
-                                    loading="lazy"
-                                    referrerPolicy="no-referrer-when-downgrade"
-                                    title="Lokasi Sekolah"
-                                />
-                            </div>
-                        ) : (
-                            <div className="aspect-video rounded-2xl border border-slate-200 bg-slate-50 flex flex-col items-center justify-center text-slate-400 space-y-3">
-                                <Map className="w-12 h-12 text-slate-300" />
-                                <p className="text-sm font-medium text-slate-500">Peta belum tersedia</p>
-                                <p className="text-xs text-slate-400 text-center max-w-xs">
-                                    Tambahkan URL Google Maps di Panel Admin → Profil Sekolah → Kontak & Lokasi.
-                                </p>
-                            </div>
-                        )}
+                    {/* Right: Contact Form */}
+                    <div>
+                        <div className="bg-gradient-to-br from-slate-50 to-slate-100 rounded-2xl border border-slate-200 p-8 shadow-sm">
+                            <h2 className="text-2xl font-bold text-slate-900 mb-2">Kirim Pesan</h2>
+                            <p className="text-sm text-slate-600 mb-6">
+                                Isi formulir di bawah untuk menghubungi kami. Kami akan merespons secepat mungkin.
+                            </p>
 
-                        {mapsUrl && (
-                            <a
-                                href={mapsUrl}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="inline-flex items-center gap-2 px-4 py-2.5 bg-indigo-600 hover:bg-indigo-500 text-white text-sm font-semibold rounded-xl transition-colors shadow-sm"
-                            >
-                                <Map className="w-4 h-4" />
-                                Buka di Google Maps
-                            </a>
-                        )}
+                            <form onSubmit={handleSubmit} className="space-y-4">
+                                {/* Name */}
+                                <div>
+                                    <label htmlFor="name" className="block text-sm font-semibold text-slate-900 mb-1.5">
+                                        Nama Lengkap <span className="text-red-500">*</span>
+                                    </label>
+                                    <input
+                                        id="name"
+                                        type="text"
+                                        value={data.name}
+                                        onChange={(e) => setData('name', e.target.value)}
+                                        placeholder="Nama Anda"
+                                        className={`w-full px-4 py-2.5 rounded-xl border ${
+                                            errors.name
+                                                ? 'border-red-500 bg-red-50 focus:ring-red-500'
+                                                : 'border-slate-300 bg-white focus:ring-indigo-500'
+                                        } focus:outline-none focus:ring-2 transition-colors text-sm`}
+                                    />
+                                    {errors.name && (
+                                        <p className="text-xs text-red-600 mt-1.5 flex items-center gap-1">
+                                            <AlertCircle className="w-3.5 h-3.5" />
+                                            {errors.name}
+                                        </p>
+                                    )}
+                                </div>
+
+                                {/* Email */}
+                                <div>
+                                    <label htmlFor="email" className="block text-sm font-semibold text-slate-900 mb-1.5">
+                                        Email <span className="text-red-500">*</span>
+                                    </label>
+                                    <input
+                                        id="email"
+                                        type="email"
+                                        value={data.email}
+                                        onChange={(e) => setData('email', e.target.value)}
+                                        placeholder="email@contoh.com"
+                                        className={`w-full px-4 py-2.5 rounded-xl border ${
+                                            errors.email
+                                                ? 'border-red-500 bg-red-50 focus:ring-red-500'
+                                                : 'border-slate-300 bg-white focus:ring-indigo-500'
+                                        } focus:outline-none focus:ring-2 transition-colors text-sm`}
+                                    />
+                                    {errors.email && (
+                                        <p className="text-xs text-red-600 mt-1.5 flex items-center gap-1">
+                                            <AlertCircle className="w-3.5 h-3.5" />
+                                            {errors.email}
+                                        </p>
+                                    )}
+                                </div>
+
+                                {/* Phone */}
+                                <div>
+                                    <label htmlFor="phone" className="block text-sm font-semibold text-slate-900 mb-1.5">
+                                        Nomor Telepon <span className="text-slate-400 font-normal">(Opsional)</span>
+                                    </label>
+                                    <input
+                                        id="phone"
+                                        type="tel"
+                                        value={data.phone}
+                                        onChange={(e) => setData('phone', e.target.value)}
+                                        placeholder="+62 xxx-xxxx-xxxx"
+                                        className={`w-full px-4 py-2.5 rounded-xl border ${
+                                            errors.phone
+                                                ? 'border-red-500 bg-red-50 focus:ring-red-500'
+                                                : 'border-slate-300 bg-white focus:ring-indigo-500'
+                                        } focus:outline-none focus:ring-2 transition-colors text-sm`}
+                                    />
+                                    {errors.phone && (
+                                        <p className="text-xs text-red-600 mt-1.5 flex items-center gap-1">
+                                            <AlertCircle className="w-3.5 h-3.5" />
+                                            {errors.phone}
+                                        </p>
+                                    )}
+                                </div>
+
+                                {/* Subject */}
+                                <div>
+                                    <label htmlFor="subject" className="block text-sm font-semibold text-slate-900 mb-1.5">
+                                        Subjek/Topik <span className="text-red-500">*</span>
+                                    </label>
+                                    <input
+                                        id="subject"
+                                        type="text"
+                                        value={data.subject}
+                                        onChange={(e) => setData('subject', e.target.value)}
+                                        placeholder="Topik pertanyaan Anda"
+                                        className={`w-full px-4 py-2.5 rounded-xl border ${
+                                            errors.subject
+                                                ? 'border-red-500 bg-red-50 focus:ring-red-500'
+                                                : 'border-slate-300 bg-white focus:ring-indigo-500'
+                                        } focus:outline-none focus:ring-2 transition-colors text-sm`}
+                                    />
+                                    {errors.subject && (
+                                        <p className="text-xs text-red-600 mt-1.5 flex items-center gap-1">
+                                            <AlertCircle className="w-3.5 h-3.5" />
+                                            {errors.subject}
+                                        </p>
+                                    )}
+                                </div>
+
+                                {/* Message */}
+                                <div>
+                                    <label htmlFor="message" className="block text-sm font-semibold text-slate-900 mb-1.5">
+                                        Pesan <span className="text-red-500">*</span>
+                                    </label>
+                                    <textarea
+                                        id="message"
+                                        value={data.message}
+                                        onChange={(e) => setData('message', e.target.value)}
+                                        placeholder="Tulis pesan Anda di sini..."
+                                        rows="5"
+                                        className={`w-full px-4 py-2.5 rounded-xl border ${
+                                            errors.message
+                                                ? 'border-red-500 bg-red-50 focus:ring-red-500'
+                                                : 'border-slate-300 bg-white focus:ring-indigo-500'
+                                        } focus:outline-none focus:ring-2 transition-colors text-sm resize-none`}
+                                    />
+                                    {errors.message && (
+                                        <p className="text-xs text-red-600 mt-1.5 flex items-center gap-1">
+                                            <AlertCircle className="w-3.5 h-3.5" />
+                                            {errors.message}
+                                        </p>
+                                    )}
+                                </div>
+
+                                {/* Submit Button */}
+                                <button
+                                    type="submit"
+                                    disabled={processing}
+                                    className="w-full mt-6 px-6 py-2.5 bg-indigo-600 hover:bg-indigo-500 disabled:bg-slate-300 text-white font-semibold rounded-xl transition-colors flex items-center justify-center gap-2 shadow-sm"
+                                >
+                                    {processing ? (
+                                        <>
+                                            <div className="w-4 h-4 border-2 border-slate-300 border-t-white rounded-full animate-spin" />
+                                            Mengirim...
+                                        </>
+                                    ) : (
+                                        <>
+                                            <Send className="w-4 h-4" />
+                                            Kirim Pesan
+                                        </>
+                                    )}
+                                </button>
+                            </form>
+                        </div>
                     </div>
                 </div>
+
+                {/* Map Section - Full Width Below */}
+                {mapsUrl && (
+                    <div className="mt-16 pt-12 border-t border-slate-200">
+                        <h2 className="text-2xl font-bold text-slate-900 mb-6">Lokasi Sekolah</h2>
+                        <div className="aspect-video rounded-2xl overflow-hidden border border-slate-200 shadow-sm bg-slate-100">
+                            <iframe
+                                src={mapsUrl.includes('embed') ? mapsUrl : `https://maps.google.com/maps?q=${latitude || ''},${longitude || ''}&output=embed`}
+                                width="100%"
+                                height="100%"
+                                style={{ border: 0 }}
+                                allowFullScreen
+                                loading="lazy"
+                                referrerPolicy="no-referrer-when-downgrade"
+                                title="Lokasi Sekolah"
+                            />
+                        </div>
+                    </div>
+                )}
             </div>
         </PublicLayout>
     );

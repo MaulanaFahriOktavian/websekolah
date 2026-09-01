@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\AchievementController as AdminAchievementController;
 use App\Http\Controllers\Admin\AnnouncementController as AdminAnnouncementController;
 use App\Http\Controllers\Admin\CategoryController as AdminCategoryController;
+use App\Http\Controllers\Admin\ContactMessageController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\FacilityController as AdminFacilityController;
 use App\Http\Controllers\Admin\GalleryController as AdminGalleryController;
@@ -36,6 +37,7 @@ Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/tentang', [AboutController::class, 'index'])->name('about.index');
 Route::get('/visi-misi', [VisionMissionController::class, 'index'])->name('vision-mission.index');
 Route::get('/kontak', [ContactController::class, 'index'])->name('contact.index');
+Route::post('/kontak', [ContactController::class, 'store'])->name('contact.store');
 Route::get('/berita', [PublicNewsController::class, 'index'])->name('news.index');
 Route::get('/berita/{news:slug}', [PublicNewsController::class, 'show'])->name('news.show');
 Route::get('/pengumuman', [PublicAnnouncementController::class, 'index'])->name('announcements.index');
@@ -85,6 +87,8 @@ Route::prefix('admin')->name('admin.')->middleware('auth')->group(function () {
     Route::post('/school-profile', [SchoolProfileController::class, 'update'])->name('school-profile.update.post');
     Route::delete('/school-profile/image/{field}', [SchoolProfileController::class, 'destroyImage'])
         ->name('school-profile.image.destroy');
+
+    Route::resource('contact-messages', ContactMessageController::class)->only(['index', 'show', 'destroy']);
 
     Route::resource('categories', AdminCategoryController::class)->except(['show']);
     Route::resource('news', AdminNewsController::class)->except(['show']);
