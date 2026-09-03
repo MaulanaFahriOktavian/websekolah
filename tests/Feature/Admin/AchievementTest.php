@@ -184,8 +184,37 @@ class AchievementTest extends TestCase
         $response = $this->actingAs($user)->delete("/admin/achievements/{$achievement->id}");
 
         $response->assertRedirect('/admin/achievements');
-        $this->assertDatabaseMissing('achievements', ['id' => $achievement->id]);
+        $this->assertSoftDeleted('achievements', ['id' => $achievement->id]);
+        $this->assertNotNull(Achievement::withTrashed()->find($achievement->id)->deleted_at);
+        $this->assertNull(Achievement::find($achievement->id));
         Storage::disk('public')->assertMissing($path);
+    }
+
+    /**
+     * Soft deleted achievement is not visible in regular admin listing.
+     */
+    public function test_soft_deleted_achievement_is_not_visible_in_admin_listing(): void
+    {
+        $user = User::factory()->create();
+
+        $achievement = Achievement::create([
+            'title' => 'Prestasi Terhapus',
+            'slug' => 'prestasi-terhapus',
+            'category' => 'Akademik',
+            'level' => 'Tingkat Kota',
+            'year' => 2025,
+            'is_active' => true,
+        ]);
+
+        $achievement->delete();
+        $this->assertSoftDeleted($achievement);
+
+        $response = $this->actingAs($user)->get('/admin/achievements');
+        $response->assertStatus(200);
+        $response->assertInertia(fn (Assert $page) => $page
+            ->component('Admin/Achievements/Index')
+            ->has('achievements.data', 0)
+        );
     }
 
     /**

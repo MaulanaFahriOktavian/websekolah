@@ -178,7 +178,32 @@ class TeacherTest extends TestCase
         $response = $this->actingAs($user)->delete("/admin/teachers/{$teacher->id}");
 
         $response->assertRedirect('/admin/teachers');
-        $this->assertDatabaseMissing('teachers', ['id' => $teacher->id]);
+        $this->assertSoftDeleted('teachers', ['id' => $teacher->id]);
+        $this->assertNotNull(Teacher::withTrashed()->find($teacher->id)->deleted_at);
+        $this->assertNull(Teacher::find($teacher->id));
         Storage::disk('public')->assertMissing($path);
+    }
+
+    /**
+     * Soft deleted teacher is not visible in regular admin listing.
+     */
+    public function test_soft_deleted_teacher_is_not_visible_in_admin_listing(): void
+    {
+        $user = User::factory()->create();
+
+        $teacher = Teacher::create([
+            'name' => 'Guru Terhapus',
+            'is_active' => true,
+        ]);
+
+        $teacher->delete();
+        $this->assertSoftDeleted($teacher);
+
+        $response = $this->actingAs($user)->get('/admin/teachers');
+        $response->assertStatus(200);
+        $response->assertInertia(fn (Assert $page) => $page
+            ->component('Admin/Teachers/Index')
+            ->has('teachers.data', 0)
+        );
     }
 }

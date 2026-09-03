@@ -45,7 +45,11 @@ export default function Index({ achievements, categories = [], years = [], filte
     }
 
     return (
-        <PublicLayout title="Prestasi & Kejuaraan Siswa">
+        <PublicLayout
+            title="Prestasi Siswa & Sekolah"
+            description="Daftar prestasi dan penghargaan membanggakan yang diraih oleh siswa dan sekolah."
+            ogType="website"
+        >
             {/* Hero Banner */}
             <section className="bg-gradient-to-b from-indigo-900 via-indigo-950 to-slate-900 text-white py-14 lg:py-20 relative overflow-hidden">
                 <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,_var(--tw-gradient-stops))] from-amber-500/20 via-transparent to-transparent pointer-events-none" />

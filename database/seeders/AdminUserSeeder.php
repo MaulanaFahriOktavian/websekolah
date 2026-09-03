@@ -15,7 +15,7 @@ class AdminUserSeeder extends Seeder
      *
      * Credentials are read from environment variables:
      *   ADMIN_NAME     — display name (default: Administrator)
-     *   ADMIN_EMAIL    — login email (default: admin@sekolah.test)
+     *   ADMIN_EMAIL    — login email (default: admin@sekol qah.test)
      *   ADMIN_PASSWORD — login password (REQUIRED — no hardcoded default)
      *
      * WARNING: Change ALL credentials before deploying to production.

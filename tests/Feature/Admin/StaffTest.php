@@ -176,7 +176,32 @@ class StaffTest extends TestCase
         $response = $this->actingAs($user)->delete("/admin/staff/{$staff->id}");
 
         $response->assertRedirect('/admin/staff');
-        $this->assertDatabaseMissing('staff', ['id' => $staff->id]);
+        $this->assertSoftDeleted('staff', ['id' => $staff->id]);
+        $this->assertNotNull(Staff::withTrashed()->find($staff->id)->deleted_at);
+        $this->assertNull(Staff::find($staff->id));
         Storage::disk('public')->assertMissing($path);
+    }
+
+    /**
+     * Soft deleted staff is not visible in regular admin listing.
+     */
+    public function test_soft_deleted_staff_is_not_visible_in_admin_listing(): void
+    {
+        $user = User::factory()->create();
+
+        $staff = Staff::create([
+            'name' => 'Staf Terhapus',
+            'is_active' => true,
+        ]);
+
+        $staff->delete();
+        $this->assertSoftDeleted($staff);
+
+        $response = $this->actingAs($user)->get('/admin/staff');
+        $response->assertStatus(200);
+        $response->assertInertia(fn (Assert $page) => $page
+            ->component('Admin/Staff/Index')
+            ->has('staff.data', 0)
+        );
     }
 }

@@ -191,8 +191,39 @@ class NewsTest extends TestCase
         $response = $this->actingAs($user)->delete("/admin/news/{$news->id}");
 
         $response->assertRedirect('/admin/news');
-        $this->assertDatabaseMissing('news', ['id' => $news->id]);
+        $this->assertSoftDeleted('news', ['id' => $news->id]);
+        $this->assertNotNull(News::withTrashed()->find($news->id)->deleted_at);
+        $this->assertNull(News::find($news->id));
         Storage::disk('public')->assertMissing($path);
+    }
+
+    /**
+     * Soft deleted news is not visible in regular admin listing.
+     */
+    public function test_soft_deleted_news_is_not_visible_in_admin_listing(): void
+    {
+        $user = User::factory()->create();
+        $category = Category::create(['name' => 'Akademik', 'slug' => 'akademik']);
+
+        $news = News::create([
+            'category_id' => $category->id,
+            'author_id' => $user->id,
+            'title' => 'Berita Terhapus',
+            'slug' => 'berita-terhapus',
+            'content' => 'Isi berita...',
+            'status' => 'published',
+            'published_at' => now(),
+        ]);
+
+        $news->delete();
+        $this->assertSoftDeleted($news);
+
+        $response = $this->actingAs($user)->get('/admin/news');
+        $response->assertStatus(200);
+        $response->assertInertia(fn (Assert $page) => $page
+            ->component('Admin/News/Index')
+            ->has('news.data', 0)
+        );
     }
 
     /**

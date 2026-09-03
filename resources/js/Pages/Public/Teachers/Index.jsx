@@ -18,7 +18,11 @@ export default function Index({ teachers, filters }) {
     }
 
     return (
-        <PublicLayout title="Direktori Guru & Pendidik">
+        <PublicLayout
+            title="Direktori Guru & Pendidik"
+            description="Profil dan direktori tenaga pengajar dan guru profesional sekolah."
+            ogType="website"
+        >
             {/* Hero Banner */}
             <section className="bg-gradient-to-b from-indigo-900 via-indigo-950 to-slate-900 text-white py-14 lg:py-20 relative overflow-hidden">
                 <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,_var(--tw-gradient-stops))] from-indigo-500/20 via-transparent to-transparent pointer-events-none" />

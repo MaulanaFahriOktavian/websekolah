@@ -19,12 +19,12 @@ export default function Show({ article, latestNews = [] }) {
         : [];
 
     return (
-        <PublicLayout title={article.meta_title || article.title}>
-            <Head>
-                {article.meta_description && (
-                    <meta name="description" content={article.meta_description} />
-                )}
-            </Head>
+        <PublicLayout
+            title={article.meta_title || article.title}
+            description={article.meta_description || article.excerpt || article.title}
+            image={article.featured_image}
+            ogType="article"
+        >
 
             <article className="py-10 lg:py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 {/* Breadcrumbs / Back */}

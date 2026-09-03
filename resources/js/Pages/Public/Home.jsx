@@ -61,7 +61,12 @@ export default function Home({ statistics, highlights }) {
     ];
 
     return (
-        <PublicLayout title="Beranda">
+        <PublicLayout
+            title="Beranda"
+            description={school?.tagline || (vision ? `Visi: ${vision}` : 'Website resmi sekolah.')}
+            image={school?.hero_image_path || school?.logo_path}
+            ogType="website"
+        >
             {/* Hero Section */}
             <section className="relative overflow-hidden bg-gradient-to-b from-indigo-900 via-indigo-950 to-slate-950 text-white py-20 lg:py-28">
                 {/* Background glow */}

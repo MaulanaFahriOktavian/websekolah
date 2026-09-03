@@ -37,7 +37,7 @@ Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/tentang', [AboutController::class, 'index'])->name('about.index');
 Route::get('/visi-misi', [VisionMissionController::class, 'index'])->name('vision-mission.index');
 Route::get('/kontak', [ContactController::class, 'index'])->name('contact.index');
-Route::post('/kontak', [ContactController::class, 'store'])->name('contact.store');
+Route::post('/kontak', [ContactController::class, 'store'])->middleware('throttle:contact-form')->name('contact.store');
 Route::get('/berita', [PublicNewsController::class, 'index'])->name('news.index');
 Route::get('/berita/{news:slug}', [PublicNewsController::class, 'show'])->name('news.show');
 Route::get('/pengumuman', [PublicAnnouncementController::class, 'index'])->name('announcements.index');

@@ -4,8 +4,11 @@ namespace App\Http\Controllers\Public;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreContactMessageRequest;
+use App\Mail\ContactNotificationMail;
 use App\Models\ContactMessage;
 use App\Models\SchoolProfile;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -44,10 +47,25 @@ class ContactController extends Controller
     {
         $validated = $request->validated();
 
-        // Create contact message in database
-        ContactMessage::create($validated);
+        // 1. Create contact message in database first
+        $contactMessage = ContactMessage::create($validated);
 
-        // Redirect back to contact page with success message
+        // 2. Dispatch email notification to configured recipient
+        $recipient = config('contact.notification_email', env('CONTACT_NOTIFICATION_EMAIL'));
+
+        if (! empty($recipient)) {
+            try {
+                Mail::to($recipient)->send(new ContactNotificationMail($contactMessage));
+            } catch (\Throwable $e) {
+                // Log failure safely without disrupting visitor response
+                Log::error('Gagal mengirim email notifikasi pesan kontak: '.$e->getMessage(), [
+                    'contact_message_id' => $contactMessage->id,
+                    'recipient' => $recipient,
+                ]);
+            }
+        }
+
+        // 3. Redirect back to contact page with success message
         return redirect()->route('contact.index')->with('message', [
             'type' => 'success',
             'title' => 'Pesan Terkirim',

@@ -54,7 +54,12 @@ export default function Show({ gallery, otherGalleries = [] }) {
         : [];
 
     return (
-        <PublicLayout title={gallery.title}>
+        <PublicLayout
+            title={gallery.title}
+            description={gallery.description || `Dokumentasi galeri foto kegiatan ${gallery.title}`}
+            image={photos[0]?.photo_path}
+            ogType="article"
+        >
             <article className="py-10 lg:py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 {/* Back Link */}
                 <div className="mb-6">

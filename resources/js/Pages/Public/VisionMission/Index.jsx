@@ -19,8 +19,9 @@ export default function VisionMission({ profile }) {
 
     return (
         <PublicLayout
-            title="Visi & Misi Sekolah"
-            description={tagline || `Visi dan Misi ${name}`}
+            title="Visi & Misi"
+            description={tagline || (vision ? `Visi: ${vision}` : 'Visi dan Misi resmi sekolah.')}
+            ogType="website"
         >
             {/* Hero */}
             <section className="bg-gradient-to-b from-indigo-900 via-indigo-950 to-slate-900 text-white py-14 lg:py-20 relative overflow-hidden">

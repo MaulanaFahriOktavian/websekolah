@@ -18,7 +18,11 @@ export default function Index({ announcements, filters }) {
     }
 
     return (
-        <PublicLayout title="Pengumuman Sekolah">
+        <PublicLayout
+            title="Pengumuman"
+            description="Informasi dan pengumuman resmi terbaru seputar kegiatan dan agenda sekolah."
+            ogType="website"
+        >
             {/* Header Banner */}
             <section className="bg-gradient-to-b from-indigo-900 via-indigo-950 to-slate-900 text-white py-14 lg:py-20 relative overflow-hidden">
                 <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,_var(--tw-gradient-stops))] from-indigo-500/20 via-transparent to-transparent pointer-events-none" />

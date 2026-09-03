@@ -51,6 +51,8 @@ class HandleInertiaRequests extends Middleware
                 'error' => fn () => $request->session()->get('error'),
                 'info' => fn () => $request->session()->get('info'),
             ],
+            'current_url' => fn () => $request->url(),
+            'app_url' => fn () => config('app.url'),
             'school' => fn () => $this->resolveSchoolProfile(),
         ];
     }

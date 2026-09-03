@@ -10,7 +10,12 @@ export default function Show({ achievement, relatedAchievements = [] }) {
         : [];
 
     return (
-        <PublicLayout title={achievement.title}>
+        <PublicLayout
+            title={achievement.title}
+            description={achievement.description || achievement.title}
+            image={achievement.photo}
+            ogType="article"
+        >
             <article className="py-10 lg:py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 {/* Back Link */}
                 <div className="mb-6">

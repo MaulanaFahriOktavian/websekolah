@@ -30,7 +30,12 @@ export default function About({ profile }) {
     const hasInfo = foundedYear || accreditation || npsn || level || status;
 
     return (
-        <PublicLayout title="Tentang Sekolah" description={tagline || description || `Profil resmi ${name}`}>
+        <PublicLayout
+            title="Profil Sekolah"
+            description={tagline || description || 'Profil lengkap, sejarah, dan informasi sekolah.'}
+            image={heroImage || profile?.logo_path}
+            ogType="website"
+        >
             {/* Hero */}
             <section className="relative overflow-hidden bg-gradient-to-b from-indigo-900 via-indigo-950 to-slate-900 text-white py-16 lg:py-24">
                 {heroImage && (

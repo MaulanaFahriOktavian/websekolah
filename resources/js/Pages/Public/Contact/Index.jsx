@@ -90,7 +90,8 @@ export default function Contact({ profile }) {
     return (
         <PublicLayout
             title="Kontak & Lokasi"
-            description={`Informasi kontak resmi ${name || 'sekolah kami'}`}
+            description={address ? `Informasi kontak dan alamat resmi: ${address}` : 'Informasi kontak, lokasi, dan formulir pesan resmi sekolah.'}
+            ogType="website"
         >
             {/* Hero */}
             <section className="bg-gradient-to-b from-indigo-900 via-indigo-950 to-slate-900 text-white py-14 lg:py-20 relative overflow-hidden">

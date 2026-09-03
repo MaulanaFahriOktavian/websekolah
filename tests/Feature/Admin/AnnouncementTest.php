@@ -134,6 +134,35 @@ class AnnouncementTest extends TestCase
         $response = $this->actingAs($user)->delete("/admin/announcements/{$announcement->id}");
 
         $response->assertRedirect('/admin/announcements');
-        $this->assertDatabaseMissing('announcements', ['id' => $announcement->id]);
+        $this->assertSoftDeleted('announcements', ['id' => $announcement->id]);
+        $this->assertNotNull(Announcement::withTrashed()->find($announcement->id)->deleted_at);
+        $this->assertNull(Announcement::find($announcement->id));
+    }
+
+    /**
+     * Soft deleted announcement is not visible in regular admin listing.
+     */
+    public function test_soft_deleted_announcement_is_not_visible_in_admin_listing(): void
+    {
+        $user = User::factory()->create();
+
+        $announcement = Announcement::create([
+            'author_id' => $user->id,
+            'title' => 'Pengumuman Terhapus',
+            'slug' => 'pengumuman-terhapus',
+            'content' => 'Konten...',
+            'status' => 'published',
+            'published_at' => now(),
+        ]);
+
+        $announcement->delete();
+        $this->assertSoftDeleted($announcement);
+
+        $response = $this->actingAs($user)->get('/admin/announcements');
+        $response->assertStatus(200);
+        $response->assertInertia(fn (Assert $page) => $page
+            ->component('Admin/Announcements/Index')
+            ->has('announcements.data', 0)
+        );
     }
 }

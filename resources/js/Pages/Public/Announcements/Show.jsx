@@ -17,7 +17,11 @@ export default function Show({ announcement, latestAnnouncements = [] }) {
         : [];
 
     return (
-        <PublicLayout title={announcement.title}>
+        <PublicLayout
+            title={announcement.title}
+            description={announcement.excerpt || announcement.content?.slice(0, 160) || announcement.title}
+            ogType="article"
+        >
             <article className="py-10 lg:py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 {/* Back */}
                 <div className="mb-6">

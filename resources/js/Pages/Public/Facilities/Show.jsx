@@ -10,7 +10,12 @@ export default function Show({ facility, otherFacilities = [] }) {
         : [];
 
     return (
-        <PublicLayout title={facility.name}>
+        <PublicLayout
+            title={facility.name}
+            description={facility.description?.slice(0, 160) || `Informasi detail fasilitas ${facility.name} sekolah.`}
+            image={facility.photo}
+            ogType="website"
+        >
             <article className="py-10 lg:py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 {/* Back Link */}
                 <div className="mb-6">

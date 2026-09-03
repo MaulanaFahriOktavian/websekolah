@@ -8,8 +8,8 @@ export default function Navbar() {
     const { school } = props;
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
-    const schoolName = school?.name || 'SMA Harapan Bangsa';
-    const schoolTagline = school?.tagline || 'Sekolah Unggul Berkarakter';
+    const schoolName = school?.name || 'Sekolah';
+    const schoolTagline = school?.tagline || 'Website Resmi Sekolah';
     const contact = school?.contact || {};
 
     const navLinks = [

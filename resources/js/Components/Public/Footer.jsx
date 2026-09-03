@@ -5,11 +5,11 @@ import { GraduationCap, MapPin, Phone, Mail, Clock, Award } from 'lucide-react';
 export default function Footer() {
     const { school } = usePage().props;
 
-    const schoolName = school?.name || 'SMA Harapan Bangsa';
-    const schoolTagline = school?.tagline || 'Unggul dalam Prestasi, Berkarakter, dan Berwawasan Global';
-    const npsn = school?.npsn || '10293847';
-    const accreditation = school?.accreditation || 'A (Unggul)';
-    const establishedYear = school?.established_year ?? school?.founded_year ?? 1985;
+    const schoolName = school?.name || 'Sekolah';
+    const schoolTagline = school?.tagline || 'Website Resmi Sekolah';
+    const npsn = school?.npsn || null;
+    const accreditation = school?.accreditation || null;
+    const establishedYear = school?.established_year ?? school?.founded_year ?? null;
     const contact = school?.contact || {};
     const social = school?.social || {};
     const currentYear = new Date().getFullYear();
@@ -31,15 +31,21 @@ export default function Footer() {
                         <p className="text-sm text-slate-400 leading-relaxed">
                             {schoolTagline}
                         </p>
-                        <div className="flex flex-wrap items-center gap-2 pt-2">
-                            <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-slate-900 border border-slate-800 text-xs text-slate-300">
-                                <Award className="w-3.5 h-3.5 text-amber-400" />
-                                Akreditasi: {accreditation}
-                            </span>
-                            <span className="inline-flex items-center px-2.5 py-1 rounded-md bg-slate-900 border border-slate-800 text-xs text-slate-300">
-                                NPSN: {npsn}
-                            </span>
-                        </div>
+                        {(accreditation || npsn) && (
+                            <div className="flex flex-wrap items-center gap-2 pt-2">
+                                {accreditation && (
+                                    <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-slate-900 border border-slate-800 text-xs text-slate-300">
+                                        <Award className="w-3.5 h-3.5 text-amber-400" />
+                                        Akreditasi: {accreditation}
+                                    </span>
+                                )}
+                                {npsn && (
+                                    <span className="inline-flex items-center px-2.5 py-1 rounded-md bg-slate-900 border border-slate-800 text-xs text-slate-300">
+                                        NPSN: {npsn}
+                                    </span>
+                                )}
+                            </div>
+                        )}
                     </div>
 
                     {/* Column 2: Quick Links */}
@@ -115,7 +121,7 @@ export default function Footer() {
                             Informasi Tambahan
                         </h4>
                         <p className="text-sm text-slate-400 leading-relaxed">
-                            Mencetak generasi penerus bangsa yang unggul, religius, dan berintegritas tinggi sejak tahun {establishedYear}.
+                            Mencetak generasi penerus bangsa yang unggul, berkarakter, dan berintegritas tinggi{establishedYear ? ` sejak tahun ${establishedYear}` : ''}.
                         </p>
                         <div className="pt-2 flex items-center gap-3 text-slate-400 text-xs">
                             <span>Kunjungi kanal media sosial resmi sekolah kami.</span>

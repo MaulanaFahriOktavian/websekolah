@@ -180,7 +180,33 @@ class FacilityTest extends TestCase
         $response = $this->actingAs($user)->delete("/admin/facilities/{$facility->id}");
 
         $response->assertRedirect('/admin/facilities');
-        $this->assertDatabaseMissing('facilities', ['id' => $facility->id]);
+        $this->assertSoftDeleted('facilities', ['id' => $facility->id]);
+        $this->assertNotNull(Facility::withTrashed()->find($facility->id)->deleted_at);
+        $this->assertNull(Facility::find($facility->id));
         Storage::disk('public')->assertMissing($path);
+    }
+
+    /**
+     * Soft deleted facility is not visible in regular admin listing.
+     */
+    public function test_soft_deleted_facility_is_not_visible_in_admin_listing(): void
+    {
+        $user = User::factory()->create();
+
+        $facility = Facility::create([
+            'name' => 'Fasilitas Terhapus',
+            'slug' => 'fasilitas-terhapus',
+            'is_active' => true,
+        ]);
+
+        $facility->delete();
+        $this->assertSoftDeleted($facility);
+
+        $response = $this->actingAs($user)->get('/admin/facilities');
+        $response->assertStatus(200);
+        $response->assertInertia(fn (Assert $page) => $page
+            ->component('Admin/Facilities/Index')
+            ->has('facilities.data', 0)
+        );
     }
 }
