@@ -11,6 +11,8 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
+        DemoAssetHelper::generateAll();
+
         $this->call([
             SchoolProfileSeeder::class,
             AdminUserSeeder::class,
@@ -22,6 +24,7 @@ class DatabaseSeeder extends Seeder
             FacilitySeeder::class,
             AchievementSeeder::class,
             GallerySeeder::class,
+            ContactMessageSeeder::class,
         ]);
     }
 }

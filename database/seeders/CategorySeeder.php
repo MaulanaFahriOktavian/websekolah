@@ -9,49 +9,59 @@ class CategorySeeder extends Seeder
 {
     /**
      * Run the database seeds.
+     *
+     * Populates categories table with consistent DEMO data.
+     * Safe to run multiple times — idempotent via updateOrCreate.
      */
     public function run(): void
     {
         $categories = [
             [
-                'name' => 'Berita Sekolah',
-                'slug' => 'berita-sekolah',
-                'description' => 'Informasi dan liputan seputar sekolah.',
+                'name' => 'Akademik',
+                'slug' => 'akademik',
+                'description' => 'Informasi kurikulum, pembelajaran, dan kalender pendidikan sekolah.',
                 'sort_order' => 1,
                 'is_active' => true,
             ],
             [
-                'name' => 'Akademik',
-                'slug' => 'akademik',
-                'description' => 'Informasi pembelajaran, kurikulum, dan kalender pendidikan.',
+                'name' => 'Kegiatan Sekolah',
+                'slug' => 'kegiatan-sekolah',
+                'description' => 'Dokumentasi kegiatan upacara, peringatan hari besar, dan agenda sekolah.',
                 'sort_order' => 2,
-                'is_active' => true,
-            ],
-            [
-                'name' => 'Kesiswaan',
-                'slug' => 'kesiswaan',
-                'description' => 'Kegiatan OSIS, ekstrakurikuler, dan organisasi siswa.',
-                'sort_order' => 3,
                 'is_active' => true,
             ],
             [
                 'name' => 'Prestasi',
                 'slug' => 'prestasi',
-                'description' => 'Pencapaian siswa dan sekolah di berbagai kompetisi.',
+                'description' => 'Capaian dan penghargaan membanggakan siswa serta sekolah.',
+                'sort_order' => 3,
+                'is_active' => true,
+            ],
+            [
+                'name' => 'Ekstrakurikuler',
+                'slug' => 'ekstrakurikuler',
+                'description' => 'Aktivitas pengembangan bakat minat, keolahragaan, kepramukaan, dan seni.',
                 'sort_order' => 4,
                 'is_active' => true,
             ],
             [
-                'name' => 'Kegiatan',
-                'slug' => 'kegiatan',
-                'description' => 'Dokumentasi acara, workshop, seminar, dan peringatan hari besar.',
+                'name' => 'Teknologi',
+                'slug' => 'teknologi',
+                'description' => 'Inovasi pembelajaran digital, literasi TIK, dan komputasi sekolah.',
                 'sort_order' => 5,
+                'is_active' => true,
+            ],
+            [
+                'name' => 'Informasi Sekolah',
+                'slug' => 'informasi-sekolah',
+                'description' => 'Pemberitahuan resmi kelembagaan, sarana prasarana, dan layanan publik.',
+                'sort_order' => 6,
                 'is_active' => true,
             ],
         ];
 
         foreach ($categories as $category) {
-            Category::firstOrCreate(
+            Category::updateOrCreate(
                 ['slug' => $category['slug']],
                 $category
             );
