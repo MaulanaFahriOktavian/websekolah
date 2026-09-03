@@ -23,10 +23,9 @@ export default function VisionMission({ profile }) {
             description={tagline || (vision ? `Visi: ${vision}` : 'Visi dan Misi resmi sekolah.')}
             ogType="website"
         >
-            {/* Hero */}
-            <section className="bg-gradient-to-b from-indigo-900 via-indigo-950 to-slate-900 text-white py-14 lg:py-20 relative overflow-hidden">
-                <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,_var(--tw-gradient-stops))] from-indigo-500/20 via-transparent to-transparent pointer-events-none" />
-                <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 z-10 space-y-4">
+            {/* Institutional Header */}
+            <section className="bg-slate-900 text-white py-14 lg:py-20 border-b border-slate-800 relative">
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-4">
                     <Badge variant="primary" size="md">Arah & Tujuan</Badge>
                     <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight leading-tight">
                         Visi & Misi

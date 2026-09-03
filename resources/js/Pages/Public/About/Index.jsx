@@ -36,15 +36,14 @@ export default function About({ profile }) {
             image={heroImage || profile?.logo_path}
             ogType="website"
         >
-            {/* Hero */}
-            <section className="relative overflow-hidden bg-gradient-to-b from-indigo-900 via-indigo-950 to-slate-900 text-white py-16 lg:py-24">
+            {/* Institutional Header */}
+            <section className="relative overflow-hidden bg-slate-900 text-white py-14 lg:py-20 border-b border-slate-800">
                 {heroImage && (
                     <div
-                        className="absolute inset-0 bg-cover bg-center opacity-20"
+                        className="absolute inset-0 bg-cover bg-center opacity-15"
                         style={{ backgroundImage: `url('/storage/${heroImage}')` }}
                     />
                 )}
-                <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,_var(--tw-gradient-stops))] from-indigo-500/20 via-transparent to-transparent pointer-events-none" />
                 <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 z-10">
                     <div className="max-w-3xl space-y-5">
                         <Badge variant="primary" size="md">Tentang Kami</Badge>

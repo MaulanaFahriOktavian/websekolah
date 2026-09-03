@@ -93,16 +93,17 @@ export default function Contact({ profile }) {
             description={address ? `Informasi kontak dan alamat resmi: ${address}` : 'Informasi kontak, lokasi, dan formulir pesan resmi sekolah.'}
             ogType="website"
         >
-            {/* Hero */}
-            <section className="bg-gradient-to-b from-indigo-900 via-indigo-950 to-slate-900 text-white py-14 lg:py-20 relative overflow-hidden">
-                <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,_var(--tw-gradient-stops))] from-indigo-500/20 via-transparent to-transparent pointer-events-none" />
-                <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 z-10 space-y-4">
-                    <Badge variant="primary" size="md">Kontak & Lokasi</Badge>
-                    <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight">
-                        Hubungi Kami
+            {/* Institutional Header */}
+            <section className="bg-slate-900 text-white py-12 lg:py-16 border-b border-slate-800">
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-3">
+                    <span className="text-xs font-semibold uppercase tracking-widest text-indigo-400">
+                        Layanan Komunikasi
+                    </span>
+                    <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight">
+                        Kontak & Lokasi Sekolah
                     </h1>
-                    <p className="text-slate-300 text-base max-w-xl leading-relaxed">
-                        Kami siap melayani pertanyaan, informasi pendaftaran, dan berbagai keperluan komunikasi Anda.
+                    <p className="text-slate-300 text-sm sm:text-base max-w-xl leading-relaxed">
+                        Pusat layanan informasi terpadu untuk pertanyaan umum, konfirmasi administrasi, dan kemitraan pendidikan.
                     </p>
                 </div>
             </section>

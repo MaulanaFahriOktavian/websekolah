@@ -23,19 +23,18 @@ export default function Index({ facilities, filters }) {
             description="Informasi sarana, prasarana, laboratorium, dan fasilitas penunjang belajar mengajar sekolah."
             ogType="website"
         >
-            {/* Hero Banner */}
-            <section className="bg-gradient-to-b from-indigo-900 via-indigo-950 to-slate-900 text-white py-14 lg:py-20 relative overflow-hidden">
-                <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,_var(--tw-gradient-stops))] from-indigo-500/20 via-transparent to-transparent pointer-events-none" />
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-                    <div className="max-w-2xl space-y-4">
-                        <Badge variant="primary" size="md">
+            {/* Institutional Header */}
+            <section className="bg-slate-900 text-white py-12 lg:py-16 border-b border-slate-800">
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div className="max-w-2xl space-y-3">
+                        <span className="text-xs font-semibold uppercase tracking-widest text-indigo-400">
                             Sarana & Prasarana
-                        </Badge>
-                        <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight">
-                            Fasilitas Sekolah
+                        </span>
+                        <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight">
+                            Sarana & Fasilitas Sekolah
                         </h1>
                         <p className="text-slate-300 text-sm sm:text-base leading-relaxed">
-                            Lingkungan belajar modern dengan fasilitas lengkap dan terawat untuk mendukung potensi akademik serta non-akademik siswa.
+                            Lingkungan belajar modern dengan fasilitas lengkap dan terawat untuk mendukung eksplorasi keilmuan, kreativitas, dan kesehatan warga sekolah.
                         </p>
                     </div>
                 </div>
