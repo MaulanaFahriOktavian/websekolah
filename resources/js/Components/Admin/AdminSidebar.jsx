@@ -14,6 +14,7 @@ import {
     Image,
     Calendar,
     ChevronRight,
+    Mail,
 } from 'lucide-react';
 
 export default function AdminSidebar({ isOpen, setIsOpen }) {
@@ -59,6 +60,12 @@ export default function AdminSidebar({ isOpen, setIsOpen }) {
                     href: '/admin/categories',
                     icon: FolderKanban,
                     active: url.startsWith('/admin/categories'),
+                },
+                {
+                    label: 'Pesan Masuk',
+                    href: '/admin/contact-messages',
+                    icon: Mail,
+                    active: url.startsWith('/admin/contact-messages'),
                 },
             ],
         },
